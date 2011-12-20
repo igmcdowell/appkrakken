@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  genre: 1
+  app_id: 1
+
+two:
+  genre: 1
+  app_id: 1

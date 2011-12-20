@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @app.name %>
+</p>
+
+<p>
+  <b>Rating:</b>
+  <%= @app.rating %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @app.description %>
+</p>
+
+<p>
+  <b>Platform:</b>
+  <%= @app.platform %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @app.price %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @app.category %>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%= @app.version %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%= @app.size %>
+</p>
+
+<p>
+  <b>Numratings:</b>
+  <%= @app.numratings %>
+</p>
+
+
+<%= link_to 'Edit', edit_app_path(@app) %> |
+<%= link_to 'Back', apps_path %>

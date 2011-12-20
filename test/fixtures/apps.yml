@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  rating: 9.99
+  description: MyText
+  platform: 
+  price: 9.99
+  category: MyString
+  version: 9.99
+  size: 9.99
+  numratings: 
+
+two:
+  name: MyString
+  rating: 9.99
+  description: MyText
+  platform: 
+  price: 9.99
+  category: MyString
+  version: 9.99
+  size: 9.99
+  numratings: 
