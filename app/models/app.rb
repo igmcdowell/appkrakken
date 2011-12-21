@@ -31,7 +31,9 @@ class App < ActiveRecord::Base
     prices.first
   end
 
-  # I could use find_or_create_by_<attr>, but that generates a separate sql query for each candidate. In the most common case (no update), that's going to generate a mess of extra sql queries. Update many relation does 1 query then checks it against candidates and only creates/destroys as necessary.
+  # I could use find_or_create_by_<attr>, but that generates a separate sql query for each candidate. The same is true for .exists? 
+  #In the most common case (no update), that's going to generate a mess of extra sql queries. 
+  # Update many relation does 1 query then checks it against candidates and only creates/destroys as necessary.
   def update_many_relation(rel, identifier, candidates)
     existing_relations = eval("self.#{rel}")
     existing_ids = existing_relations.map {| trel | eval("trel.#{identifier}")}.compact
@@ -45,7 +47,7 @@ class App < ActiveRecord::Base
     end
   end
   
-  def update_details(details)
+  def update_details
     require 'net/http'
     require 'uri'
     details = Net::HTTP.get URI.parse('http://itunes.apple.com/lookup?id='+app_id.to_s)

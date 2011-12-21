@@ -12,9 +12,11 @@ desc "Import apps."
   task :import_apps => :environment do
     #TODO swap out the static file with feeds from get_feed
     #TODO write some logic to smartly update things at most once per day
-    file = File.open("apps.json", "r:ISO-8859-1") #I'm not sure what the encoding is on Apple's RSS feed. Forcing to read as non-UTF8, then encoding.
-    contents = file.read
-    contents.encode!("UTF-8")
+    #file = File.open("apps.json", "r:ISO-8859-1") #I'm not sure what the encoding is on Apple's RSS feed. Forcing to read as non-UTF8, then encoding.
+    #contents = file.read
+    require 'net/http'
+    require 'uri'
+    contents = Net::HTTP.get URI.parse('http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/limit=10/json')
     parsed_json = ActiveSupport::JSON.decode(contents)
     feed = parsed_json["feed"]
     feed["entry"].each do | entry |
