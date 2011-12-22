@@ -9,8 +9,6 @@ class App < ActiveRecord::Base
   after_create :add_price_history
   after_save :check_price_change
   
-
-  
   def add_price_history
     if prices.length > 0 
       oldp = self.old_price
@@ -18,7 +16,7 @@ class App < ActiveRecord::Base
       oldp.save
     end
     self.prices.create(price: self.price, start_date:DateTime.current())
-    #note: self. this point self.query for self.prices.first will return old_price, instead of the new one, since it hits the cache. Not sure how to force it to issue self.fresh query. May only matter in the console
+    #note: At this point a query for self.prices.first will return old_price, instead of the new one, since it hits the cache. Not sure how to force it to issue a fresh query. May only matter in the console
   end
   
   def check_price_change
@@ -32,7 +30,7 @@ class App < ActiveRecord::Base
   end
 
   # I could use find_or_create_by_<attr>, but that generates a separate sql query for each candidate. The same is true for .exists? 
-  #In the most common case (no update), that's going to generate a mess of extra sql queries. 
+  # In the most common case (no update), that's going to generate a mess of extra sql queries. 
   # Update many relation does 1 query then checks it against candidates and only creates/destroys as necessary.
   def update_many_relation(rel, identifier, candidates)
     existing_relations = eval("self.#{rel}")
@@ -62,7 +60,7 @@ class App < ActiveRecord::Base
     self.size, self.version, self.release_notes, self.release_date = details["fileSizeBytes"], details["version"], details["releaseNotes"], details["releaseDate"]
     genres, genre_codes, ipad_screenshot_urls, language_codes, screenshot_urls, supported_devices = details["genres"], details["genreIds"], details["iPadScreenshotUrls"], details["languageCodesISO2A"], details["screenshot_urls"], details["supportedDevices"]
     self.save
-    #The has-many relations below require sql queries. Create new relations attempts to tune it a little.
+    #The has-many relations below require sql queries. Update many relations attempts to tune it a little.
     if genres
       self.update_many_relation('genres', 'name', genres)
     end

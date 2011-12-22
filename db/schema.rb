@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111219022314) do
+ActiveRecord::Schema.define(:version => 20111222050224) do
 
   create_table "apps", :force => true do |t|
     t.string   "name"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(:version => 20111219022314) do
     t.string   "age_rating"
     t.integer  "app_id"
   end
+
+  add_index "apps", ["app_id"], :name => "index_apps_on_app_id", :unique => true
 
   create_table "genre_codes", :force => true do |t|
     t.integer  "genre"
