@@ -1,7 +1,7 @@
 #This task is intended to update the 500 least recently updated apps.
 desc "Update apps"
   task :update_apps => :environment do
-    to_update = App.find(:all, :limit => 500, :order=> 'updated_at desc')
+    to_update = App.find(:all, :limit => 500, :order=> 'updated_at asc')
     to_update.each do | app |
       app.update_details
     end
