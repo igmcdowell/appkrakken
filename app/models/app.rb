@@ -54,7 +54,11 @@ class App < ActiveRecord::Base
     require 'net/http'
     require 'uri'
     details = Net::HTTP.get URI.parse('http://itunes.apple.com/lookup?id='+app_id.to_s)
-    details = ActiveSupport::JSON.decode(details)["results"][0]
+    details = ActiveSupport::JSON.decode(details)
+    if details["resultCount"] == 0
+      self.destroy
+      return
+    end
     #note: I'm unable to determine which attributes can only change on a resubmission. 
     #since I've already pulled all of them in the search result, it's easiest just to remap everything.
     self.price, self.description = details["price"], details["description"]
