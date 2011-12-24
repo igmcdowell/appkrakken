@@ -59,6 +59,7 @@ class App < ActiveRecord::Base
       self.destroy
       return
     end
+    details = details["results"][0]
     #note: I'm unable to determine which attributes can only change on a resubmission. 
     #since I've already pulled all of them in the search result, it's easiest just to remap everything.
     self.price, self.description = details["price"], details["description"]
