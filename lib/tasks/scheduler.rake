@@ -5,6 +5,7 @@ desc "Update apps"
     to_update.each do | app |
       app.update_details
     end
+    puts 'Updated Apps'
   end
 
 desc "Import apps." 

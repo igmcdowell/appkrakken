@@ -8,6 +8,11 @@ class App < ActiveRecord::Base
   has_many :supported_devices, dependent: :destroy, foreign_key: "app_id"
   after_create :add_price_history
   after_save :check_price_change
+  before_save :truncate_values
+  
+  def truncate_values
+    self.dev_name = self.dev_name[0,251]+'...'
+  end
   
   def add_price_history
     if prices.length > 0 
