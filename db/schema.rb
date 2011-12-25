@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111222050224) do
+ActiveRecord::Schema.define(:version => 20111225173459) do
 
   create_table "apps", :force => true do |t|
     t.string   "name"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20111222050224) do
     t.decimal  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_decrease", :default => false
   end
 
   add_index "prices", ["app_id"], :name => "index_prices_on_app_id"

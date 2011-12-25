@@ -1,5 +1,6 @@
 class App < ActiveRecord::Base
   has_many :prices, dependent: :destroy, foreign_key: "app_id", :order => "start_date DESC"
+  has_many :price_decreases, :class_name => "Price", :conditions => ['is_decrease', true]
   has_many :genres, dependent: :destroy, foreign_key: "app_id"
   has_many :genre_codes, dependent: :destroy, foreign_key: "app_id"
   has_many :ipad_screenshot_urls, dependent: :destroy, foreign_key: "app_id"
@@ -9,18 +10,26 @@ class App < ActiveRecord::Base
   after_create :add_price_history
   after_save :check_price_change
   before_save :truncate_values
+
+  def self.recent_price_drops(numprices) 
+    includes(:prices).where("prices.end_date" => nil).where("prices.is_decrease" => true).order("prices.created_at desc").limit(numprices)
+  end
   
   def truncate_values
     self.dev_name = self.dev_name[0,251]+'...'
   end
   
   def add_price_history
+    price_decreased = false
     if prices.length > 0 
       oldp = self.old_price
       oldp.end_date = DateTime.current()
       oldp.save
+      if oldp.price > price
+        price_decreased = true
+      end
     end
-    self.prices.create(price: self.price, start_date:DateTime.current())
+    self.prices.create(price: self.price, start_date:DateTime.current(), is_decrease: price_decreased)
     #note: At this point a query for self.prices.first will return old_price, instead of the new one, since it hits the cache. Not sure how to force it to issue a fresh query. May only matter in the console
   end
   
