@@ -10,6 +10,7 @@ class App < ActiveRecord::Base
   after_create :add_price_history
   after_save :check_price_change
   before_save :truncate_values
+  
 
   def self.recent_price_drops(numprices) 
     includes(:prices).where("prices.end_date" => nil).where("prices.is_decrease" => true).order("prices.created_at desc").limit(numprices)

@@ -13,11 +13,36 @@ class AppsController < ApplicationController
   # GET /apps/1
   # GET /apps/1.json
   def show
-    @app = App.find(params[:id])
-
+    @app = App.includes(:prices).find(params[:id])
+    
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @app }
+      format.json { 
+        # the ugly syntax below is the only way I could get this to work. See this thread: http://www.ruby-forum.com/topic/132229
+        render json: @app.to_json(
+          :include => {
+             :genres => {
+               :only => :name
+             },
+             :genre_codes => {
+               :only => :genre
+             },
+             :ipad_screenshot_urls => {
+                :only => :url
+             },
+             :language_codes => {
+                :only => :language
+             },
+             :screenshot_urls => {
+                :only => :url
+             },
+             :supported_devices => {
+                :only => :device
+             }
+          })
+        
+        
+        }
     end
   end
 
