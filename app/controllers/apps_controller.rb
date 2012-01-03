@@ -2,18 +2,40 @@ class AppsController < ApplicationController
   # GET /apps
   # GET /apps.json
   def index
-    @apps = App.all
-
+    n = (params[:n] != nil && [50,params[:n].to_i].min) || 5
+    @drops = App.recent_price_drops(n)
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @apps }
+      format.json { render json: @drops.to_json(
+        :include => {
+           :genres => {
+             :only => :name
+           },
+           :genre_codes => {
+             :only => :genre
+           },
+           :ipad_screenshot_urls => {
+              :only => :url
+           },
+           :language_codes => {
+              :only => :language
+           },
+           :screenshot_urls => {
+              :only => :url
+           },
+           :supported_devices => {
+              :only => :device
+           },
+           :prices => {
+             :only => [:price, :start_date, :end_date, :is_decrease]
+           }
+        })}
     end
   end
 
   # GET /apps/1
   # GET /apps/1.json
   def show
-    @app = App.includes(:prices).find(params[:id])
+    @app = App.includes(:prices).where(app_id: params[:id])
     
     respond_to do |format|
       format.html # show.html.erb
@@ -38,10 +60,11 @@ class AppsController < ApplicationController
              },
              :supported_devices => {
                 :only => :device
+             },
+             :prices => {
+               :only => [:price, :start_date, :end_date, :is_decrease]
              }
           })
-        
-        
         }
     end
   end

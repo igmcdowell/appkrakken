@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ruby on Rails: Welcome aboard</title>
+    <title>AppKrakken</title>
     <style type="text/css" media="screen">
       body {
         margin: 0;
@@ -186,52 +186,28 @@
     </script>
   </head>
   <body>
-    <div id="page">
-      <div id="sidebar">
-        <ul id="sidebar-items">
-          <li>
-            <h3>Browse the documentation</h3>
-            <ul class="links">
-              <li><a href="http://guides.rubyonrails.org/">Rails Guides</a></li>
-              <li><a href="http://api.rubyonrails.org/">Rails API</a></li>
-              <li><a href="http://www.ruby-doc.org/core/">Ruby core</a></li>
-              <li><a href="http://www.ruby-doc.org/stdlib/">Ruby standard library</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-
       <div id="content">
         <div id="header">
-          <h1>Welcome aboard</h1>
-          <h2>You&rsquo;re riding Ruby on Rails!</h2>
+          <h1>AppKrakken</h1>
+          <h2>iOS App Price Tracker</h2>
         </div>
 
         <div id="about">
-          <h3><a href="rails/info/properties" onclick="about(); return false">About your application&rsquo;s environment</a></h3>
-          <div id="about-content" style="display: none"></div>
+					<h3>About</h3>
+	         <p>AppKrakken parses Apple's RSS feeds to retrieve the top 400 apps in various categories for the US market, for a total database of ~40k apps.  These feeds are fetched once daily. Individual apps are checked for price changes twice daily using Apple's affiliate API.</p>
         </div>
 
         <div id="getting-started">
-          <h1>Getting started</h1>
-          <h2>Here&rsquo;s how to get rolling:</h2>
-
-          <ol>
+          <h3>Usage:</h3>
+          <ul>
             <li>
-              <h2>Use <code>rails generate</code> to create your models and controllers</h2>
-              <p>To see all available options, run it without parameters.</p>
+              ./apps.json?n=<#> : Return the n apps with the most recent price drops. e.g. ./apps.json?n=5 would show the five most recent. Default is 5, limit is 50.
             </li>
 
             <li>
-              <h2>Set up a default route and remove <span class="filename">public/index.html</span></h2>
-              <p>Routes are set up in <span class="filename">config/routes.rb</span>.</p>
+							./apps/<app_id>.json : Return the specified app and any price drops. app_id is Apple's id for the app; you can get it from their APIs or the list of price drops.
             </li>
-
-            <li>
-              <h2>Create your database</h2>
-              <p>Run <code>rake db:create</code> to create your database. If you're not using SQLite (the default), edit <span class="filename">config/database.yml</span> with your username and password.</p>
-            </li>
-          </ol>
+          </ul>
         </div>
       </div>
 
